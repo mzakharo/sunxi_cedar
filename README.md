@@ -9,7 +9,7 @@ apt-get install gcc-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
 ```
 #Build Linux kernel
 ```bash
-git clone --single-branch --branch debian/4.3.0-ntc-4 https://github.com/NextThingCo/CHIP-linux.git
+git clone --single-branch --branch debian/4.4.13-ntc-mlc https://github.com/NextThingCo/CHIP-linux.git
 cd CHIP-linux/
 export KERNEL_SRC=$(pwd)
 make ARCH=arm multi_v7_defconfig
