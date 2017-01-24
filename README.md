@@ -7,7 +7,7 @@
 apt-get install git build-essential fakeroot kernel-package zlib1g-dev libncurses5-dev lzop
 apt-get install gcc-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
 ```
-#Build Linux kernel
+#Prepare Linux kernel tree
 ```bash
 git clone --single-branch --branch debian/4.4.13-ntc-mlc https://github.com/NextThingCo/CHIP-linux.git
 cd CHIP-linux/
