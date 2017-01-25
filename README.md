@@ -12,6 +12,7 @@ apt-get install gcc-arm-linux-gnueabihf binutils-arm-linux-gnueabihf
 git clone --single-branch --branch debian/4.4.13-ntc-mlc https://github.com/NextThingCo/CHIP-linux.git
 cd CHIP-linux/
 export KERNEL_SRC=$(pwd)
+export LOCALVERSION="-ntc-mlc"
 make ARCH=arm multi_v7_defconfig
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j$(($(nproc)+1)) INSTALL_MOD_PATH=$WORKSPACE modules
 ```
