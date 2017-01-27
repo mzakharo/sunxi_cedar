@@ -13,7 +13,6 @@
 #define SUNXI_VER_A10C 0
 #define SUNXI_VER_A20 1
 #define sw_get_ic_ver() (1)
-#define clk_reset(v,d)
 #endif
 
 #ifndef VM_RESERVED

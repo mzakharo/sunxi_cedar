@@ -1,0 +1,73 @@
+From d893924e783fd590344514bbf0b66bed807a02d7 Mon Sep 17 00:00:00 2001
+From: Mikhail Zakharov <mikhail.zakharov@cognitivesystems.com>
+Date: Fri, 27 Jan 2017 11:53:41 -0500
+Subject: [PATCH 2/2] add cedar video engine entry
+
+---
+ arch/arm/boot/dts/sun5i-a13.dtsi | 43 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
+
+diff --git a/arch/arm/boot/dts/sun5i-a13.dtsi b/arch/arm/boot/dts/sun5i-a13.dtsi
+index 1252209..fbc85ea 100644
+--- a/arch/arm/boot/dts/sun5i-a13.dtsi
++++ b/arch/arm/boot/dts/sun5i-a13.dtsi
+@@ -67,6 +67,40 @@
+ 		};
+ 	};
+ 
++  reserved-memory {
++		#address-cells = <1>;
++		#size-cells = <1>;
++		ranges;
++
++    ve_reserved: cma {
++        compatible = "shared-dma-pool";
++        no-map;
++        size = <0x4000000>;
++        alignment = <0x2000>;
++        alloc-ranges = <0x40000000 0x10000000>;
++        linux,cma-default;
++    };
++  };
++
++	ve: video-engine@01c0e000 {
++			compatible = "allwinner,sunxi-cedar";
++			memory-region = <&ve_reserved>;
++
++			clocks = <&ahb_gates 32>, <&ve_clk>,
++				 <&dram_gates 0>;
++			clock-names = "ahb", "mod", "ram";
++
++			assigned-clocks = <&ve_clk>;
++			assigned-clock-rates = <320000000>;
++
++			resets = <&ve_clk>;
++
++			interrupts = <53>;
++
++			reg = <0x01c0e000 0x1000>;
++  };
++
++
+ 	thermal-zones {
+ 		cpu_thermal {
+ 			/* milliseconds */
+@@ -215,6 +249,15 @@
+ 			clock-output-names = "mali";
+ 		};
+ 	};
++  ve_clk: clk@01c2013c {
++			#clock-cells = <0>;
++			#reset-cells = <0>;
++			compatible = "allwinner,sun4i-a10-ve-clk";
++			reg = <0x01c2013c 0x4>;
++			clocks = <&pll4>;
++			clock-output-names = "ve";
++		};
++
+ 
+ 	display-engine {
+ 		compatible = "allwinner,sun5i-a13-display-engine";
+-- 
+1.9.1
+
