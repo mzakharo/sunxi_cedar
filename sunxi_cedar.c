@@ -1185,11 +1185,7 @@ static int cedardev_remove(struct platform_device *pdev) {
 	clk_disable(avs_moduleclk);
 	clk_put(avs_moduleclk);
 #endif
-#if 0
-	clk_disable_unprepare(cedar_devp->ram_clk);
-	clk_disable_unprepare(cedar_devp->mod_clk);
-	clk_disable_unprepare(cedar_devp->ahb_clk);
-#endif
+    disable_cedar_hw_clk();
 
 	if (ve_start_virt) {
 		dma_free_coherent(&pdev->dev, ve_size, ve_start_virt, ve_start);
