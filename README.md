@@ -1,6 +1,8 @@
 #------------------------------------------------------------
-# Cedar_dev : video engine driver
+# cedar_dev : video engine driver
 #------------------------------------------------------------
+
+This is a sunxi-cedar driver port from  [linux-sunxi 3.4 kernel module](https://github.com/linux-sunxi/linux-sunxi/tree/a8f8ba9ba383c2358d67b4dcaa5ce5cd4f0dd587/drivers/media/video/sunxi) to [CHIP-linux 4.4](https://github.com/NextThingCo/CHIP-linux/tree/debian/4.4.13-ntc-mlc), enabling "/dev/cedar_dev" entry for use with [gst-plugin-cedar](https://github.com/gzhuli/gst-plugin-cedar) and [ffmpeg-cedrus](https://github.com/stulluk/FFmpeg-Cedrus/raw/master/ffmpeg_2-1_armhf.deb) amongst others.
 
 #Get prerequisites
 ```bash
