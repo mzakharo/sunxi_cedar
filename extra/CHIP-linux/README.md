@@ -6,5 +6,6 @@ This contains patches to 4.4.13-ntc-mlc  C.H.I.P Linux kernel,
 
 There are also pre-buit  Linux Kernel and Device tree binaries with above
 patches on top of CHIP-linux 934f732e5c17e692a1b0de68e147ea87532847b8 :
+
     - zImage  : linux kernel
     - sun5i-r8-chip.dts :device tree binary
