@@ -89,7 +89,7 @@ struct clk *avs_moduleclk = NULL;
 struct clk *hosc_clk = NULL;
 #endif
 
-//static unsigned long pll4clk_rate = 720000000;
+static unsigned long pll4clk_rate = 720000000;
 
 static void *ve_start_virt;
 unsigned long ve_start;
@@ -479,18 +479,13 @@ static long __set_ve_freq (int arg)
 	int max_rate = 320000000;
 	int min_rate = 100000000;
 	int arg_rate = arg * 1000000;	/* arg_rate is specified in MHz */
-	//int divisor;
+	int divisor;
 
 	if (arg_rate > max_rate)
 		arg_rate = max_rate;
 	if (arg_rate < min_rate)
 		arg_rate = min_rate;
 
-	if (clk_set_rate(cedar_devp->mod_clk, arg_rate) == -1) {
-		return -EFAULT;
-	}
-	dev_info(cedar_devp->dev, "IOCTL_SET_VE_FREQ:  mod_clk= %lu\n", clk_get_rate(cedar_devp->mod_clk));
-#if 0
 	/*
 	** compute integer divisor of pll4clk_rate so that:
 	** ve_moduleclk >= arg_rate
@@ -513,13 +508,12 @@ static long __set_ve_freq (int arg)
 	if (divisor > 8)
 		divisor = 8;
 
-	if (clk_set_rate(ve_moduleclk, pll4clk_rate / divisor) == -1) {
+	if (clk_set_rate(cedar_devp->mod_clk, pll4clk_rate / divisor) == -1) {
 		printk("IOCTL_SET_VE_FREQ: error setting clock; pll4clk_rate = %lu, requested = %lu\n", pll4clk_rate, pll4clk_rate / divisor);
 		return -EFAULT;
 	}
 #ifdef CEDAR_DEBUG
-	printk("IOCTL_SET_VE_FREQ: pll4clk_rate = %lu, divisor = %d, arg_rate= %d, ve_moduleclk = %lu\n", pll4clk_rate, divisor, arg_rate, clk_get_rate(ve_moduleclk));
-#endif
+	dev_info(cedar_devp->dev, "IOCTL_SET_VE_FREQ: pll4clk_rate = %lu, divisor = %d, arg_rate= %d, ve_moduleclk = %lu\n", pll4clk_rate, divisor, arg_rate, clk_get_rate(cedar_devp->mod_clk));
 #endif
 	return 0;
 }
@@ -958,6 +952,7 @@ int sunxi_cedrus_hw_probe(struct cedar_dev *vpu)
 	struct resource *res;
 	int irq_dec;
 	int ret;
+    struct clk *pll;
 
 	irq_dec = platform_get_irq(vpu->pdev, 0);
 	if (irq_dec <= 0) {
@@ -988,6 +983,12 @@ int sunxi_cedrus_hw_probe(struct cedar_dev *vpu)
 		dev_err(vpu->dev, "failed to get mod clock\n");
 		return PTR_ERR(vpu->mod_clk);
 	}
+    pll = clk_get_parent(vpu->mod_clk);
+    if (pll == NULL) {
+		dev_err(vpu->dev, "failed to get parent of  mod clock\n");
+        return -1;
+    }
+    pll4clk_rate = clk_get_rate(pll);
 	vpu->ram_clk = devm_clk_get(vpu->dev, "ram");
 	if (IS_ERR(vpu->ram_clk)) {
 		dev_err(vpu->dev, "failed to get ram clock\n");
@@ -1128,7 +1129,7 @@ static int cedardev_probe(struct platform_device *pdev)
 #endif
 
 	/*for clk test*/
-	#ifdef CEDAR_DEBUG
+	#if 0
 	printk("PLL4 CLK:0xf1c20018 is:%x\n", *(volatile int *)0xf1c20018);
 	printk("AHB CLK:0xf1c20064 is:%x\n", *(volatile int *)0xf1c20064);
 	printk("VE CLK:0xf1c2013c is:%x\n", *(volatile int *)0xf1c2013c);
