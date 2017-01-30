@@ -1,17 +1,17 @@
-From d893924e783fd590344514bbf0b66bed807a02d7 Mon Sep 17 00:00:00 2001
-From: Mikhail Zakharov <mikhail.zakharov@cognitivesystems.com>
-Date: Fri, 27 Jan 2017 11:53:41 -0500
-Subject: [PATCH 2/2] add cedar video engine entry
+From ca90efe53151e7e9b9c2601f976dec0a68b60851 Mon Sep 17 00:00:00 2001
+From: Mikhail Zakharov <mzakharo@gmail.com>
+Date: Mon, 30 Jan 2017 09:02:39 -0800
+Subject: [PATCH] add cedar video engine entry
 
 ---
  arch/arm/boot/dts/sun5i-a13.dtsi | 43 ++++++++++++++++++++++++++++++++++++++++
  1 file changed, 43 insertions(+)
 
 diff --git a/arch/arm/boot/dts/sun5i-a13.dtsi b/arch/arm/boot/dts/sun5i-a13.dtsi
-index 1252209..fbc85ea 100644
+index 17b36b9..9cf7fa8 100644
 --- a/arch/arm/boot/dts/sun5i-a13.dtsi
 +++ b/arch/arm/boot/dts/sun5i-a13.dtsi
-@@ -67,6 +67,40 @@
+@@ -67,6 +67,49 @@
  		};
  	};
  
@@ -47,16 +47,7 @@ index 1252209..fbc85ea 100644
 +
 +			reg = <0x01c0e000 0x1000>;
 +  };
-+
-+
- 	thermal-zones {
- 		cpu_thermal {
- 			/* milliseconds */
-@@ -215,6 +249,15 @@
- 			clock-output-names = "mali";
- 		};
- 	};
-+  ve_clk: clk@01c2013c {
++ 	ve_clk: clk@01c2013c {
 +			#clock-cells = <0>;
 +			#reset-cells = <0>;
 +			compatible = "allwinner,sun4i-a10-ve-clk";
@@ -65,9 +56,11 @@ index 1252209..fbc85ea 100644
 +			clock-output-names = "ve";
 +		};
 +
- 
- 	display-engine {
- 		compatible = "allwinner,sun5i-a13-display-engine";
++
++
+ 	thermal-zones {
+ 		cpu_thermal {
+ 			/* milliseconds */
 -- 
 1.9.1
 
